@@ -14,31 +14,19 @@ return new class extends Migration
     Schema::create('products', function (Blueprint $table) {
 
         $table->id();
-
         $table->foreignId('category_id')
               ->constrained()
               ->onDelete('cascade');
-
         $table->string('name');
-
         $table->string('slug')->unique();
-
         $table->string('thumbnail')->nullable();
-
         $table->text('gallery')->nullable();
-
         $table->decimal('sale_price',10,2);
-
         $table->decimal('original_price',10,2);
-
         $table->string('color')->nullable();
-
         $table->string('weight')->nullable();
-
         $table->longText('description')->nullable();
-
         $table->timestamps();
-
     });
 }
 

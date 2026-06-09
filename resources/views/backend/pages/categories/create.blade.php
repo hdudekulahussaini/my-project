@@ -28,6 +28,10 @@
                                 required>
                         </div>
                         <div class="col-md-12">
+                            <label class="form-label fw-semibold">Slug <small class="text-muted">(auto-generated)</small></label>
+                            <input type="text" name="slug" id="slug" class="form-control" placeholder="Auto-generated" readonly>
+                        </div>
+                        <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Category Image
                             </label>
@@ -58,4 +62,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelector('input[name="name"]').addEventListener('input', function() {
+            const name = this.value;
+            const slug = name
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            document.getElementById('slug').value = slug;
+        });
+    </script>
 @endsection

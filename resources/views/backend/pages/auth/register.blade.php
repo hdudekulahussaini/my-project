@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container">
+@extends('layouts.frontend.app')
+@section('content')
+    <div class="container" style="margin-top:130px;">
         <div class="row justify-content-center align-items-center min-vh-100">
             <div class="col-md-5">
                 <div class="card shadow p-4">
@@ -50,6 +45,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+  @endsection

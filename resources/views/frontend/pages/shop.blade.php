@@ -1,244 +1,200 @@
 @extends('layouts.frontend.app')
 @section('content')
-    <!-- Single Page Header start -->
+    <!-- Shop Header Start -->
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6">Shop</h1>
-        <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-            <li class="breadcrumb-item active text-white">Shop</li>
-        </ol>
+        <div class="container py-5">
+            <div class="text-center">
+                <h1 class="display-5 text-white">Shop Fresh Organic Products</h1>
+                <p class="text-white-50 mb-4">Browse premium fruits, vegetables, and farm-fresh groceries with fast delivery.
+                </p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-6">
+                    <form action="{{ route('shop') }}" method="GET" class="position-relative">
+                        <input type="search" name="search" value="{{ request('search') }}"
+                            class="form-control border-0 rounded-pill py-3 ps-4 pe-5"
+                            placeholder="Search products, categories or brands...">
+                        <button type="submit"
+                            class="btn btn-primary rounded-pill position-absolute top-50 end-0 translate-middle-y me-2 px-4">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Single Page Header End -->
-    <!-- Fruits Shop Start-->
+    <!-- Shop Header End -->
+
+    <!-- Shop Content Start -->
     <div class="container-fluid fruite py-5">
         <div class="container py-5">
-            <h1 class="mb-4">Fresh fruits shop</h1>
             <div class="row g-4">
-                <div class="col-lg-12">
-                    <div class="row g-4">
-                        <div class="col-xl-3">
-                            <div class="input-group w-100 mx-auto d-flex">
-                                <input type="search" class="form-control p-3" placeholder="keywords"
-                                    aria-describedby="search-icon-1">
-                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-6"></div>
-                        <div class="col-xl-3">
-                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                <label for="fruits">Default Sorting:</label>
-                                <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3"
-                                    form="fruitform">
-                                    <option value="volvo">Nothing</option>
-                                    <option value="saab">Popularity</option>
-                                    <option value="opel">Organic</option>
-                                    <option value="audi">Fantastic</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-lg-3">
-                            <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <h4>Categories</h4>
-                                        @php
-                                            $cats = $categories ?? null;
-                                        @endphp
-                                        @if ($cats && $cats->count())
-                                            <ul class="list-unstyled fruite-categorie">
-                                                @foreach ($cats as $cat)
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="{{ request()->url() }}?category={{ $cat->id }}"><i
-                                                                    class="fas fa-apple-alt me-2"></i>{{ $cat->name }}</a>
-                                                            <span>({{ $cat->products_count ?? ($cat->products->count() ?? 0) }})</span>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            <ul class="list-unstyled fruite-categorie">
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                                        <span>(3)</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <h4 class="mb-2">Price</h4>
-                                        <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput"
-                                            min="0" max="500" value="0"
-                                            oninput="amount.value=rangeInput.value">
-                                        <output id="amount" name="amount" min-velue="0" max-value="500"
-                                            for="rangeInput">0</output>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <h4>Additional</h4>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-1" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-1"> Organic</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-2" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-2"> Fresh</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-3" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-3"> Sales</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-4" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-4"> Discount</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-5" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-5"> Expired</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <h4 class="mb-3">Featured products</h4>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                            <img src="{{ asset('frontend/img/featur-1.jpg') }}" class="img-fluid rounded"
-                                                alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-2">Big Banana</h6>
-                                            <div class="d-flex mb-2">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                            <img src="{{ asset('frontend/img/featur-2.jpg') }}" class="img-fluid rounded"
-                                                alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-2">Big Banana</h6>
-                                            <div class="d-flex mb-2">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                            <img src="{{ asset('frontend/img/featur-3.jpg') }}" class="img-fluid rounded"
-                                                alt="">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-2">Big Banana</h6>
-                                            <div class="d-flex mb-2">
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star text-secondary"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="d-flex mb-2">
-                                                <h5 class="fw-bold me-2">2.99 $</h5>
-                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center my-4">
-                                        <a href="#"
-                                            class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew
-                                            More</a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="position-relative">
-                                        <img src="{{ asset('frontend/img/banner-fruits.jpg') }}"
-                                            class="img-fluid w-100 rounded" alt="">
-                                        <div class="position-absolute"
-                                            style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                            <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-9">
-                            <div class="row g-4 justify-content-center">
-                                @foreach ($fruitProducts as $product)
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('storage/' . $product->thumbnail) }}"
-                                                    class="img-fluid w-100 rounded-top" alt="{{ $product->name }}">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                style="top: 10px; left: 10px;">
-                                                {{ $product->category->name ?? 'No Category' }}</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>{{ $product->name }}</h4>
-                                                <p>{{ Str::limit($product->description, 80) }}}</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">
-                                                        ₹{{ number_format($product->sale_price, 2) }} / kg</p>
-                                                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit"
-                                                            class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                            Add Cart
-                                                        </button>
-                                                    </form>
+                <div class="col-lg-3">
+                    <div class="card border-0 shadow-sm mb-4 shop-sidebar">
+                        <div class="card-body">
+                            <h4 class="mb-4">Shop Filters</h4>
+                            <div class="mb-4">
+                                <h6 class="mb-3">Categories</h6>
+                                @if ($categories->count())
+                                    <ul class="list-unstyled fruite-categorie">
+                                        @foreach ($categories as $cat)
+                                            <li>
+                                                <div class="d-flex justify-content-between fruite-name align-items-center">
+                                                    <a href="{{ request()->fullUrlWithQuery(['category' => $cat->id]) }}">
+                                                        <i class="fas fa-leaf me-2"></i>{{ $cat->name }}
+                                                    </a>
+                                                    <span class="text-secondary">{{ $cat->products_count }}</span>
                                                 </div>
-                                            </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-muted">No categories found.</p>
+                                @endif
+                                @if (request('category'))
+                                    <a href="{{ route('shop') }}" class="btn btn-sm btn-outline-secondary mt-3">Clear
+                                        filter</a>
+                                @endif
+                            </div>
+                            <div class="mb-4">
+                                <h6 class="mb-3">Price range</h6>
+                                <input type="range" class="form-range" min="0" max="500" value="0"
+                                    id="priceRange">
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small>0</small>
+                                    <small>500+</small>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h6 class="mb-3">Featured items</h6>
+                                @foreach ($featuredProducts as $product)
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <img src="{{ asset('storage/' . $product->thumbnail) }}" class="rounded"
+                                            style="width: 70px; height: 70px; object-fit: cover;"
+                                            alt="{{ $product->name }}">
+                                        <div class="ms-3">
+                                            <h6 class="mb-1">{{ Str::limit($product->name, 24) }}</h6>
+                                            <small
+                                                class="text-secondary">₹{{ number_format($product->sale_price, 2) }}</small>
                                         </div>
                                     </div>
                                 @endforeach
-                                <div class="col-12">
-                                    <div class="pagination d-flex justify-content-center mt-5">
-                                        <a href="#" class="rounded">&laquo;</a>
-                                        <a href="#" class="active rounded">1</a>
-                                        <a href="#" class="rounded">2</a>
-                                        <a href="#" class="rounded">3</a>
-                                        <a href="#" class="rounded">4</a>
-                                        <a href="#" class="rounded">5</a>
-                                        <a href="#" class="rounded">6</a>
-                                        <a href="#" class="rounded">&raquo;</a>
+                            </div>
+                            <div class="bg-light rounded p-4 text-center">
+                                <h5>Need help?</h5>
+                                <p class="text-muted mb-3">Our team is here to help you pick the best fresh produce.</p>
+                                <a href="{{ route('contact') }}" class="btn btn-outline-primary rounded-pill">Contact
+                                    Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div
+                        class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
+                        <div>
+                            <p class="mb-1 text-secondary">{{ $products->count() }} products available</p>
+                            <h2 class="h4 mb-0">Organic Grocery Store</h2>
+                        </div>
+                        <form action="{{ route('shop') }}" method="GET" class="d-flex align-items-center gap-2">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                            <label class="mb-0 text-secondary">Sort by</label>
+                            <select name="sort" class="form-select form-select-sm" onchange="this.form.submit()">
+                                <option value="" {{ request('sort') === null ? 'selected' : '' }}>Latest</option>
+                                <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price low
+                                    to high</option>
+                                <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price
+                                    high to low</option>
+                                <option value="name" {{ request('sort') === 'name' ? 'selected' : '' }}>Name</option>
+                            </select>
+                        </form>
+                    </div>
+
+                    <div class="row g-4">
+                        @forelse ($products as $product)
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card product-card h-100 border-0 shadow-sm overflow-hidden">
+                                    <div class="position-relative product-image">
+                                        <a href="{{ route('product.details', $product->slug) }}">
+                                            <img src="{{ asset('storage/' . $product->thumbnail) }}" class="card-img-top"
+                                                alt="{{ $product->name }}" style="height: 240px; object-fit: cover;">
+                                        </a>
+                                        <span
+                                            class="badge bg-secondary position-absolute top-0 start-0 m-3">{{ $product->category->name ?? 'No Category' }}</span>
+                                        <form action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                            class="position-absolute top-0 end-0 m-3">
+                                            @csrf
+                                            <button type="submit"
+                                                class="btn btn-light rounded-circle shadow-sm p-2 wishlist-btn"
+                                                title="Add to wishlist">
+                                                <i class="fa-solid fa-heart text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <a href="{{ route('product.details', $product->slug) }}"
+                                            class="text-decoration-none text-dark">
+                                            <h5 class="card-title">{{ $product->name }}</h5>
+                                        </a>
+                                        <p class="text-muted small mb-3">{{ Str::limit($product->description, 100) }}</p>
+                                        <div class="mt-auto">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <div>
+                                                    <span class="text-primary fs-5 fw-bold">
+                                                        ₹{{ number_format($product->sale_price, 2) }}
+                                                    </span>
+                                                    <span class="text-muted">/ kg</span>
+                                                </div>
+                                            </div>
+                                            @if ($product->stock > 0)
+                                                <span class="badge bg-success mb-2">
+                                                    In Stock ({{ $product->stock }})
+                                                </span>
+                                            @else
+                                                <span class="badge bg-danger mb-2">
+                                                    Out Of Stock
+                                                </span>
+                                            @endif
+                                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                                @csrf
+                                                @if ($product->stock > 0)
+                                                    <button type="submit"
+                                                        class="btn btn-outline-primary w-100 rounded-pill py-2">
+                                                        <i class="fa fa-shopping-bag me-2"></i>
+                                                        Add to Cart
+                                                    </button>
+                                                @else
+                                                    <button type="button" class="btn btn-danger w-100 rounded-pill py-2"
+                                                        disabled>
+                                                        Out Of Stock
+                                                    </button>
+                                                @endif
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        @empty
+                            <div class="col-12 text-center py-5">
+                                <p class="text-secondary mb-0">No products found. Try a different search or category.</p>
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-5">
+                        <div class="pagination">
+                            <a href="#" class="rounded">&laquo;</a>
+                            <a href="#" class="active rounded">1</a>
+                            <a href="#" class="rounded">2</a>
+                            <a href="#" class="rounded">3</a>
+                            <a href="#" class="rounded">4</a>
+                            <a href="#" class="rounded">5</a>
+                            <a href="#" class="rounded">&raquo;</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Fruits Shop End-->
+    <!-- Shop Content End -->
+@endsection

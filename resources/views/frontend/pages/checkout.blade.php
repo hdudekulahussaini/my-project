@@ -1,286 +1,329 @@
 @extends('layouts.frontend.app')
+
 @section('content')
-    <!-- Single Page Header start -->
-    <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6">Checkout</h1>
-        <ol class="breadcrumb justify-content-center mb-0">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-            <li class="breadcrumb-item active text-white">Checkout</li>
-        </ol>
-    </div>
-    <!-- Single Page Header End -->
-    <!-- Checkout Page Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <h1 class="mb-4">Billing details</h1>
-            <form action="{{ route('order.store') }}" method="POST">
+    <div class="checkout-wrapper">
+        <div class="container">
+
+            <div class="checkout-header">
+                <h2 class="fw-bold mb-2">
+                    <i class="fa fa-credit-card me-2"></i>
+                    Checkout
+                </h2>
+                <p class="mb-0">Complete your order safely and quickly</p>
+            </div>
+
+            @if ($errors->any())
+                <div class="alert alert-danger rounded-4 shadow-sm">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Checkout Form -->
+            <form id="checkoutForm" action="{{ route('order.store') }}" method="POST">
                 @csrf
-                <div class="row g-5">
-                    <div class="col-md-12 col-lg-6 col-xl-7">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-6">
-                                <div class="form-item w-100">
-                                    <label class="form-label my-3">First Name<sup>*</sup></label>
-                                    <input type="text" name="first_name" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-lg-6">
-                                <div class="form-item w-100">
-                                    <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                    <input type="text" name="last_name" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Company Name<sup>*</sup></label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-item">
-                            <label>Email Address<sup>*</sup></label>
-                            <input type="email" name="email" class="form-control">
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Town/City<sup>*</sup></label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Country<sup>*</sup></label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Phone Number<sup>*</sup></label>
-                            <input type="tel" name="phone" class="form-control">
-                        </div>
-                        <div class="form-item">
-                            <label class="form-label my-3">Address<sup>*</sup></label>
-                            <input type="text" name="address" class="form-control"
-                                placeholder="House Number Street Name">
-                        </div>
-                        <div class="form-check my-3">
-                            <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
-                            <label class="form-check-label" for="Account-1">Create an account?</label>
-                        </div>
-                        <hr>
-                        <div class="form-check my-3">
-                            <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address">
-                            <label class="form-check-label" for="Address-1">Ship to a different address?</label>
-                        </div>
-                        <div class="form-item">
-                            <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11"
-                                placeholder="Oreder Notes (Optional)"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-6 col-xl-5">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Products</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
 
-                                    @php
-                                        $total = 0;
-                                    @endphp
+                <div class="row">
+                    <!-- Left Side -->
+                    <div class="col-lg-7">
+                        <!-- Delivery Address -->
+                        <div class="card mb-4 shadow-sm border-0 rounded-4">
+                            <div class="card-header bg-white border-0 rounded-top-4 p-4">
+                                <h5 class="mb-0 fw-bold">
+                                    <i class="fa fa-map-marker-alt me-2 text-primary"></i>
+                                    Delivery Address
+                                </h5>
+                            </div>
 
-                                    @foreach ($carts as $cart)
-                                        @php
-                                            $subtotal = $cart->product->sale_price * $cart->quantity;
-                                            $total += $subtotal;
-                                        @endphp
-                                        <tr>
-                                            <th scope="row">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <img src="{{ asset('storage/' . $cart->product->thumbnail) }}"
-                                                        class="img-fluid rounded-circle" style="width:90px;height:90px;"
-                                                        alt="">
+                            <div class="card-body p-4">
+
+                                @forelse($addresses as $address)
+                                    <label class="address-card border rounded-4 p-3 mb-3 d-block position-relative">
+                                        <div class="d-flex gap-3">
+
+                                            <input class="form-check-input mt-1" type="radio" name="address_id"
+                                                value="{{ $address->id }}" {{ $loop->first ? 'checked' : '' }} required>
+
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">
+                                                            {{ $address->name }}
+                                                        </h6>
+
+                                                        <p class="mb-1 text-muted small">
+                                                            {{ $address->address }},
+                                                            {{ $address->city }},
+                                                            {{ $address->state }},
+                                                            {{ $address->country }} -
+                                                            {{ $address->pincode }}
+                                                        </p>
+
+                                                        <p class="mb-0 small">
+                                                            <strong>Phone:</strong> {{ $address->phone }}
+                                                            <br>
+                                                            <strong>Email:</strong> {{ $address->email }}
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="d-flex gap-2">
+                                                        <a href="{{ route('address.edit', $address->id) }}"
+                                                            class="btn btn-outline-primary btn-sm">
+                                                            Edit
+                                                        </a>
+
+                                                        <button type="submit" form="delete-address-{{ $address->id }}"
+                                                            class="btn btn-outline-danger btn-sm"
+                                                            onclick="return confirm('Delete this address?')">
+                                                            Delete
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </th>
-
-                                            <td class="py-5">
-
-                                                {{ $cart->product->name }}
-
-                                            </td>
-
-                                            <td class="py-5">
-
-                                                ₹{{ number_format($cart->product->sale_price, 2) }}
-
-                                            </td>
-
-                                            <td class="py-5">
-
-                                                {{ $cart->quantity }}
-
-                                            </td>
-
-                                            <td class="py-5">
-
-                                                ₹{{ number_format($subtotal, 2) }}
-
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-
-
-                                    <tr>
-
-                                        <td colspan="3"></td>
-
-                                        <td class="py-5">
-
-                                            <p class="mb-0 text-dark py-3">
-
-                                                Subtotal
-
-                                            </p>
-
-                                        </td>
-
-                                        <td class="py-5">
-
-                                            <div class="py-3 border-bottom border-top">
-
-                                                <p class="mb-0 text-dark">
-
-                                                    ₹{{ number_format($total, 2) }}
-
-                                                </p>
-
                                             </div>
+                                        </div>
+                                    </label>
+                                @empty
+                                    <div class="alert alert-warning rounded-4">
+                                        No address found. Please add delivery address.
+                                    </div>
+                                @endforelse
 
-                                        </td>
-
-                                    </tr>
-
-
-                                    <tr>
-
-                                        <td colspan="3"></td>
-
-                                        <td class="py-5">
-
-                                            <p class="mb-0 text-dark py-3">
-
-                                                Shipping
-
-                                            </p>
-
-                                        </td>
-
-                                        <td class="py-5">
-
-                                            <div class="py-3 border-bottom border-top">
-
-                                                <p class="mb-0 text-dark">
-
-                                                    ₹50.00
-
-                                                </p>
-
-                                            </div>
-
-                                        </td>
-
-                                    </tr>
-
-
-                                    <tr>
-
-                                        <td colspan="3"></td>
-
-                                        <td class="py-5">
-
-                                            <p class="mb-0 text-dark text-uppercase py-3">
-
-                                                TOTAL
-
-                                            </p>
-
-                                        </td>
-
-                                        <td class="py-5">
-
-                                            <div class="py-3 border-bottom border-top">
-
-                                                <p class="mb-0 text-dark">
-
-                                                    ₹{{ number_format($total + 50, 2) }}
-
-                                                </p>
-
-                                            </div>
-
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Transfer-1"
-                                        name="Transfer" value="Transfer">
-                                    <label class="form-check-label" for="Transfer-1">Direct Bank Transfer</label>
-                                </div>
-                                <p class="text-start text-dark">Make your payment directly into our bank account. Please
-                                    use your Order ID as the payment reference. Your order will not be shipped until the
-                                    funds have cleared in our account.</p>
+                                <a href="{{ route('address.create') }}" class="btn btn-primary rounded-pill px-4">
+                                    <i class="fa fa-plus me-2"></i>
+                                    Add New Address
+                                </a>
                             </div>
                         </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Payments-1"
-                                        name="Payments" value="Payments">
-                                    <label class="form-check-label" for="Payments-1">Check Payments</label>
+
+                    </div>
+
+                    <!-- Right Side -->
+                    <div class="col-lg-5">
+                        <div class="order-card">
+                            <h3 class="section-title">
+                                <i class="fa fa-shopping-bag me-2 text-success"></i>
+                                Order Summary
+                            </h3>
+
+                            @php
+                                $total = 0;
+                                $shipping = 50;
+                            @endphp
+
+                            @foreach ($carts as $cart)
+                                @php
+                                    $subtotal = $cart->product->sale_price * $cart->quantity;
+                                    $total += $subtotal;
+                                @endphp
+
+                                <div class="order-item d-flex align-items-center mb-3">
+                                    <img src="{{ asset('storage/' . $cart->product->thumbnail) }}" class="order-img me-3"
+                                        alt="{{ $cart->product->name }}">
+
+                                    <div class="flex-grow-1">
+                                        <div class="order-name">
+                                            {{ $cart->product->name }}
+                                        </div>
+                                        <small class="text-muted">
+                                            Qty: {{ $cart->quantity }}
+                                        </small>
+                                    </div>
+
+                                    <div class="order-price">
+                                        ₹{{ number_format($subtotal, 2) }}
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            @php
+                                $grandTotal = $total + $shipping;
+                            @endphp
+
+                            <input type="hidden" name="amount" id="amount" value="{{ $grandTotal }}">
+
+                            <div class="mt-4">
+                                <div class="summary-row d-flex justify-content-between mb-2">
+                                    <span>Subtotal</span>
+                                    <strong>₹{{ number_format($total, 2) }}</strong>
+                                </div>
+
+                                <div class="summary-row d-flex justify-content-between mb-2">
+                                    <span>Shipping</span>
+                                    <strong>₹{{ number_format($shipping, 2) }}</strong>
+                                </div>
+
+                                <div class="summary-row summary-total d-flex justify-content-between">
+                                    <span>Total</span>
+                                    <strong>₹{{ number_format($grandTotal, 2) }}</strong>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1"
-                                        name="Delivery" value="Delivery">
-                                    <label class="form-check-label" for="Delivery-1">Cash On Delivery</label>
-                                </div>
+
+                            <h5 class="fw-bold mt-4 mb-3">
+                                Payment Method
+                            </h5>
+
+                            <div class="payment-box mb-2">
+                                <input type="radio" name="payment_method" value="cod" id="cod" checked>
+                                <label for="cod" class="ms-2">
+                                    Cash On Delivery
+                                </label>
                             </div>
-                        </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                            <div class="col-12">
-                                <div class="form-check text-start my-3">
-                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Paypal-1"
-                                        name="Paypal" value="Paypal">
-                                    <label class="form-check-label" for="Paypal-1">Paypal</label>
-                                </div>
+
+                            <div class="payment-box mb-2">
+                                <input type="radio" name="payment_method" value="razorpay" id="razorpay">
+                                <label for="razorpay" class="ms-2">
+                                    Razorpay (UPI / Card / Net Banking)
+                                </label>
                             </div>
-                        </div>
-                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                            <button type="submit"
-                                class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place
-                                Order</button>
-                            <a href="{{ route('orders') }}">
-                                My Orders
+
+                            <div class="payment-box mb-2">
+                                <input type="radio" name="payment_method" value="bank" id="bank">
+                                <label for="bank" class="ms-2">
+                                    Direct Bank Transfer
+                                </label>
+                            </div>
+
+                            <div class="payment-box mb-3">
+                                <input type="radio" name="payment_method" value="paypal" id="paypal">
+                                <label for="paypal" class="ms-2">
+                                    PayPal
+                                </label>
+                            </div>
+
+                            <button type="button" class="place-order-btn mt-3">
+                                Place Order
+                            </button>
+
+                            <a href="{{ route('orders') }}" class="orders-link d-block mt-3">
+                                View My Orders
                             </a>
                         </div>
                     </div>
+
                 </div>
             </form>
+
+            <!-- Delete Address Forms - Outside Checkout Form -->
+            @foreach ($addresses as $address)
+                <form id="delete-address-{{ $address->id }}" action="{{ route('address.destroy', $address->id) }}"
+                    method="POST" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            @endforeach
+
         </div>
     </div>
-    <!-- Checkout Page End -->
+
+    <!-- Address Modal -->
+    <div class="modal fade" id="addressModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form action="{{ route('address.store') }}" method="POST">
+                    @csrf
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Address</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="text" name="name" class="form-control mb-2" placeholder="Full Name" required>
+
+                        <input type="text" name="phone" class="form-control mb-2" placeholder="Phone" required>
+
+                        <textarea name="address" class="form-control mb-2" placeholder="Address" required></textarea>
+
+                        <input type="text" name="city" class="form-control mb-2" placeholder="City" required>
+
+                        <input type="text" name="state" class="form-control mb-2" placeholder="State" required>
+
+                        <input type="text" name="country" class="form-control mb-2" placeholder="Country" required>
+
+                        <input type="text" name="pincode" class="form-control mb-2" placeholder="Pincode" required>
+
+                        <input type="email" name="email" class="form-control mb-2" placeholder="Email" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            Save Address
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelector('.place-order-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            let selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+
+            if (!selectedPayment) {
+                alert('Please select payment method');
+                return;
+            }
+
+            let paymentMethod = selectedPayment.value;
+            let form = document.querySelector('#checkoutForm');
+
+            if (paymentMethod === 'cod') {
+                form.submit();
+                return;
+            }
+
+            if (paymentMethod === 'razorpay') {
+
+                let amount = Number(document.getElementById('amount').value);
+
+                if (!amount || amount <= 0) {
+                    alert('Invalid amount');
+                    return;
+                }
+
+                let options = {
+                    key: "{{ config('services.razorpay.key') }}",
+                    amount: amount * 100,
+                    currency: "INR",
+                    name: "Your Store Name",
+                    description: "Order Payment",
+
+                    handler: function(response) {
+                        let input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'razorpay_payment_id';
+                        input.value = response.razorpay_payment_id;
+                        form.appendChild(input);
+
+                        form.submit();
+                    },
+
+                    modal: {
+                        ondismiss: function() {
+                            alert('Payment popup closed');
+                        }
+                    },
+
+                    theme: {
+                        color: "#0d6efd"
+                    }
+                };
+
+                let rzp = new Razorpay(options);
+
+                rzp.on('payment.failed', function(response) {
+                    alert(
+                        'Payment Failed\n' +
+                        response.error.description
+                    );
+                });
+
+                rzp.open();
+            }
+        });
+    </script>
 @endsection

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('phone');
             $table->text('address');
             $table->decimal('total', 10, 2);
-            $table->string('status')->default('pending');
+            $table->string('payment_method')->default('COD');
+            $table->string('payment_status')->default('Pending');
             $table->timestamps();
         });
     }

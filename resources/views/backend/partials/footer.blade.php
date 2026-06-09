@@ -1,19 +1,20 @@
-<footer class="bg-white border-top mt-5">
+<footer class="footer-admin">
+    <div class="container-fluid">
 
-    <div class="container py-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
 
-        <div class="text-center">
-
-            <p class="mb-0">
-
+            <div>
                 © {{ date('Y') }}
+                <strong>E-Commerce Dashboard</strong>
+            </div>
 
-                Admin Dashboard
-
-            </p>
+            <div>
+                Version 1.0.0 |
+                Developed by
+                <strong>Hussaini</strong>
+            </div>
 
         </div>
 
     </div>
-
 </footer>

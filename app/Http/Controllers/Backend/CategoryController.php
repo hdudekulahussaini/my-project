@@ -52,7 +52,6 @@ class CategoryController extends Controller
         ]);
 
         $imagePath = $category->image;
-
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('categories', 'public');
         }

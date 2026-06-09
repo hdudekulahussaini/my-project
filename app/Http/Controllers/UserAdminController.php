@@ -11,7 +11,6 @@ class UserAdminController extends Controller
     {
         $categories = Category::count();
         $products = Product::count();
-
         return view('frontend.pages.user-admin', compact('categories', 'products'));
     }
 }

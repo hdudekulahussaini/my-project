@@ -46,157 +46,128 @@
     </div>
     <!-- Hero End -->
 
-
     <!-- Featurs Section Start -->
     <div class="container-fluid featurs py-5">
         <div class="container py-5">
             <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-car-side fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>Free Shipping</h5>
-                            <p class="mb-0">Free on order over $300</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-user-shield fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>Security Payment</h5>
-                            <p class="mb-0">100% security payment</p>
+                @foreach ($features as $feature)
+                    <div class="col-md-6 col-lg-3">
+                        <div class="featurs-item text-center rounded bg-light p-4">
+                            <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                                <i class="{{ $feature->icon }} fa-3x text-white"></i>
+                            </div>
+                            <div class="featurs-content text-center">
+                                <h5>{{ $feature->title }}</h5>
+                                <p class="mb-0">{{ $feature->description }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-exchange-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>30 Day Return</h5>
-                            <p class="mb-0">30 day money guarantee</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fa fa-phone-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>24/7 Support</h5>
-                            <p class="mb-0">Support every time fast</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
     <!-- Featurs Section End -->
 
-    <!-- Fruits Shop Start-->
+    <!-- Fruits Products Start -->
     <div class="container-fluid fruite py-5">
         <div class="container py-5">
-            <div class="tab-class text-center">
-                <div class="row g-4">
-                    <div class="col-lg-4 text-start">
-                        <h1>Our Organic Products</h1>
-                    </div>
-                    <div class="col-lg-8 text-end">
-                        <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill"
-                                    href="#tab-1">
-                                    <span class="text-dark" style="width: 130px;">All Products</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                    <span class="text-dark" style="width: 130px;">Vegetables</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                    <span class="text-dark" style="width: 130px;">Fruits</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                    <span class="text-dark" style="width: 130px;">Bread</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                    <span class="text-dark" style="width: 130px;">Meat</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="row g-4 mb-5">
+                <div class="col-lg-6">
+                    <h1>Our Organic Products</h1>
                 </div>
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    @foreach ($fruitProducts as $product)
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <a href="{{ route('product.details', $product->slug) }}">
-                                                        <img src="{{ asset('storage/' . $product->thumbnail) }}"
-                                                            class="img-fluid w-100 rounded-top"
-                                                            alt="{{ $product->name }}">
-                                                    </a>
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                    style="top: 10px; left: 10px;">
-                                                    {{ $product->category->name ?? 'No Category' }}
-                                                </div>
+            </div>
 
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="{{ route('product.details', $product->slug) }}"
-                                                        class="text-decoration-none text-dark">
-                                                        <h4>{{ $product->name }}</h4>
-                                                    </a>
-                                                    <p>
-                                                        {{ Str::limit($product->description, 80) }}
-                                                    </p>
+            <div class="row g-4">
+                @foreach ($fruitProducts as $product)
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="rounded position-relative product-card border border-secondary">
 
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">
-                                                            ₹{{ number_format($product->sale_price, 2) }} / kg
-                                                        </p>
-                                                        
-                                                        <form action="{{ route('cart.add', $product->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                Add Cart
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
+                            <div class="product-img-box">
+                                <a href="{{ route('product.details', $product->slug) }}">
+                                    <img src="{{ asset('storage/' . $product->thumbnail) }}"
+                                        class="img-fluid w-100 rounded-top" alt="{{ $product->name }}">
+                                </a>
+                            </div>
 
-                                            </div>
+                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                style="top: 10px; left: 10px;">
+                                {{ $product->category->name ?? 'No Category' }}
+                            </div>
+
+                            <form action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                class="position-absolute" style="top:10px; right:10px; z-index:10;">
+                                @csrf
+
+                                <button type="submit"
+                                    class="wishlist-btn {{ in_array($product->id, $wishlistIds) ? 'in-wishlist' : 'not-wishlist' }}">
+                                    <i
+                                        class="{{ in_array($product->id, $wishlistIds) ? 'fa-solid' : 'fa-regular' }} fa-heart"></i>
+                                </button>
+                            </form>
+
+                            <div class="p-4">
+                                <a href="{{ route('product.details', $product->slug) }}"
+                                    class="text-decoration-none text-dark">
+                                    <h4 class="mb-2">{{ $product->name }}</h4>
+                                </a>
+
+                                <p class="text-muted mb-3">
+                                    {{ Str::limit($product->description, 65) }}
+                                </p>
+
+                                <div class="product-footer">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h5 class="fw-bold text-dark mb-0">
+                                                ₹{{ number_format($product->sale_price, 2) }}
+                                            </h5>
+
+                                            <small class="text-muted">
+                                                {{ $product->weight ?? 'kg' }}
+                                            </small>
                                         </div>
-                                    @endforeach
+
+                                        <div>
+                                            @if ($product->stock == 0)
+                                                <span class="badge bg-danger stock-badge">
+                                                    Out Of Stock
+                                                </span>
+                                            @elseif ($product->stock <= 5)
+                                                <span class="badge bg-warning text-dark stock-badge">
+                                                    Last Few Left
+                                                </span>
+                                            @else
+                                                <span class="badge bg-success stock-badge">
+                                                    In Stock
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                        @csrf
+
+                                        @if ($product->stock > 0)
+                                            <button type="submit" class="btn btn-success add-cart-btn">
+                                                <i class="fa fa-shopping-bag me-2"></i>
+                                                Add To Cart
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-danger add-cart-btn" disabled>
+                                                Out Of Stock
+                                            </button>
+                                        @endif
+                                    </form>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
-    <!-- Fruits Shop End-->
+    <!-- Fruits Products End -->
 
 
     <!-- Featurs Start -->
@@ -250,15 +221,16 @@
     </div>
     <!-- Featurs End -->
 
-
-    <!-- Vesitable Shop Start-->
+    <!-- Vegetable Shop Start -->
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
-            <h1 class="mb-0">Fresh Organic Vegetables</h1>
+            <h1 class="mb-4">Fresh Organic Vegetables</h1>
+
             <div class="owl-carousel vegetable-carousel justify-content-center">
                 @foreach ($vegetableProducts as $product)
-                    <div class="border border-primary rounded position-relative vesitable-item">
-                        <div class="vesitable-img">
+                    <div class="border border-primary rounded position-relative vesitable-item product-card">
+
+                        <div class="product-img-box">
                             <a href="{{ route('product.details', $product->slug) }}">
                                 @if ($product->thumbnail)
                                     <img src="{{ asset('storage/' . $product->thumbnail) }}"
@@ -269,34 +241,85 @@
                                 @endif
                             </a>
                         </div>
+
                         <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                            style="top: 10px; right: 10px;">{{ $product->category->name ?? 'No Category' }}</div>
+                            style="top: 10px; right: 10px;">
+                            {{ $product->category->name ?? 'No Category' }}
+                        </div>
+
+                        <form action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                            class="position-absolute" style="top:10px; left:10px; z-index:10;">
+                            @csrf
+
+                            <button type="submit"
+                                class="wishlist-btn {{ in_array($product->id, $wishlistIds) ? 'in-wishlist' : 'not-wishlist' }}">
+                                <i
+                                    class="{{ in_array($product->id, $wishlistIds) ? 'fa-solid' : 'fa-regular' }} fa-heart"></i>
+                            </button>
+                        </form>
 
                         <div class="p-4 rounded-bottom">
                             <a href="{{ route('product.details', $product->slug) }}"
                                 class="text-decoration-none text-dark">
-                                <h4>{{ $product->name }}</h4>
+                                <h4 class="mb-2">{{ $product->name }}</h4>
                             </a>
-                            <p>{{ Str::limit($product->description, 80) }}</p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="text-dark fs-5 fw-bold mb-0">₹{{ number_format($product->sale_price, 2) }}/
-                                    {{ $product->weight ?? 'kg' }}</p>
+
+                            <p class="text-muted mb-3">
+                                {{ Str::limit($product->description, 65) }}
+                            </p>
+
+                            <div class="product-footer">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <h5 class="fw-bold text-dark mb-0">
+                                            ₹{{ number_format($product->sale_price, 2) }}
+                                        </h5>
+
+                                        <small class="text-muted">
+                                            {{ $product->weight ?? 'kg' }}
+                                        </small>
+                                    </div>
+
+                                    <div>
+                                        @if ($product->stock == 0)
+                                            <span class="badge bg-danger stock-badge">
+                                                Out Of Stock
+                                            </span>
+                                        @elseif ($product->stock <= 5)
+                                            <span class="badge bg-warning text-dark stock-badge">
+                                                Last Few Left
+                                            </span>
+                                        @else
+                                            <span class="badge bg-success stock-badge">
+                                                In Stock
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
                                 <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit"
-                                        class="btn border border-secondary rounded-pill px-3 text-primary">
-                                        <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                                        Add Cart
-                                    </button>
+
+                                    @if ($product->stock > 0)
+                                        <button type="submit" class="btn btn-success add-cart-btn">
+                                            <i class="fa fa-shopping-bag me-2"></i>
+                                            Add To Cart
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-danger add-cart-btn" disabled>
+                                            Out Of Stock
+                                        </button>
+                                    @endif
                                 </form>
                             </div>
                         </div>
+
                     </div>
                 @endforeach
             </div>
         </div>
     </div>
-    <!-- Vesitable Shop End -->
+    <!-- Vegetable Shop End -->
 
 
     <!-- Banner Section Start-->

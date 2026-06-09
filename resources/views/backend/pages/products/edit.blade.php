@@ -37,45 +37,39 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Product Name</label>
-
                             <input type="text" name="name" value="{{ $product->name }}" class="form-control"
                                 placeholder="Enter product name">
                         </div>
-
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Slug <small class="text-muted">(auto-generated from
+                                    name)</small></label>
+                            <input type="text" name="slug" id="slug" value="{{ $product->slug }}"
+                                class="form-control" placeholder="Auto-generated">
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Sale Price</label>
-
                             <input type="number" name="sale_price" value="{{ $product->sale_price }}" class="form-control"
                                 placeholder="Enter sale price">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Original Price</label>
-
                             <input type="number" name="original_price" value="{{ $product->original_price }}"
                                 class="form-control" placeholder="Enter original price">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Color</label>
-
                             <input type="text" name="color" value="{{ $product->color }}" class="form-control"
                                 placeholder="Example: Red">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Weight</label>
-
                             <input type="text" name="weight" value="{{ $product->weight }}" class="form-control"
                                 placeholder="Example: 1 kg">
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Current Image</label>
-
                             <div class="border rounded p-3 text-center bg-light">
                                 @if ($product->thumbnail)
                                     <img src="{{ asset('storage/' . $product->thumbnail) }}" width="120" height="120"
@@ -85,12 +79,9 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">New Thumbnail</label>
-
                             <input type="file" name="thumbnail" class="form-control">
-
                             <small class="text-muted">
                                 Upload new image only if you want to change existing image.
                             </small>
@@ -104,29 +95,40 @@
                                 Select multiple product images
                             </small>
                         </div>
+                        <div class="mb-3">
+                            <label>Stock Quantity</label>
+                            <input type="number" name="stock" class="form-control"
+                                value="{{ old('stock', $product->stock ?? 0) }}" min="0" required>
+                        </div>
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">Description</label>
-
                             <textarea name="description" rows="5" class="form-control" placeholder="Enter product description">{{ $product->description }}</textarea>
                         </div>
-
                     </div>
-
                     <div class="d-flex gap-2 mt-4">
                         <button class="btn btn-success px-4">
                             <i class="fa fa-save me-2"></i>
                             Update Product
                         </button>
-
                         <a href="{{ route('products.index') }}" class="btn btn-secondary px-4">
                             Cancel
                         </a>
                     </div>
-
                 </form>
-
             </div>
         </div>
-
     </div>
+
+    <script>
+        document.querySelector('input[name="name"]').addEventListener('input', function() {
+            const name = this.value;
+            const slug = name
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            document.getElementById('slug').value = slug;
+        });
+    </script>
 @endsection
